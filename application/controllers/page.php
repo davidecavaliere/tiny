@@ -11,7 +11,10 @@ class Page extends Controller
    * This method handles the page serving
    */
     public function serve($page) {
+      $this->title = ucfirst($page);
+
       $pageBasePath = PAGE . $page;
+
       if (file_exists($pageBasePath. '.html')) {
 
         // page can be served
@@ -30,6 +33,7 @@ class Page extends Controller
       }
 
       // load views
+      require APP . 'views/_templates/header.php';
       require APP . 'views/index.php';
       require APP . 'views/_templates/footer.php';
 
