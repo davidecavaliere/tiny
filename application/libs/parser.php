@@ -39,7 +39,7 @@ class Parser {
         $content .= '<h' . $order . '>' . $text . '</h' . $order . '>';
       }
 
-      if (preg_match('/^[*|-]/', $line, $matches)) {
+      if (preg_match('/^[\*]/', $line, $matches)) {
         $paragraphStart = -1;
 
         if ($matches[0] === '*') {
