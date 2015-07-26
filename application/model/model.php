@@ -8,11 +8,6 @@ class Model
     public $db = null;
 
     /**
-     * @var null Model
-     */
-    public $model = null;
-
-    /**
      * @param object $db A PDO database connection
      */
     function __construct()
