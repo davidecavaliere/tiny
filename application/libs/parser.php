@@ -25,6 +25,21 @@ class Parser {
         // search for double \n to find the paragraph end
       }
 
+      if (preg_match('/^#{2,}/', $line, $matches)) {
+        // we'll not create a paragraph
+        $paragraphStart = -1;
+
+        // gets the number of #
+        $order = strlen($matches[0]);
+
+        // remove the #s and trim the line
+        $text = trim(substr($line, $order));
+
+        $content .= '<h' . $order . '>' . $text . '</h' . $order . '>';
+      }
+
+
+
       if (array_key_exists($key+1, $lines) && empty($lines[$key+1]) && $paragraphStart>0) {
         // if next line also contains a new line we've got the end of the
         // paragraph
