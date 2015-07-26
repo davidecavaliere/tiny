@@ -7,8 +7,8 @@ class Parser {
 
     $currentLineIndex = 0;
     $paragraphStart   = -1;
-    $ulStart          = -1;
-    $ulEnd            = -1;
+    $listStart          = -1;
+    $listEnd            = -1;
 
     foreach ($lines as $key => $line) {
       $currentLineIndex = $key;
@@ -39,29 +39,44 @@ class Parser {
         $content .= '<h' . $order . '>' . $text . '</h' . $order . '>';
       }
 
-      if (preg_match('/^\*/', $line)) {
+      if (preg_match('/^[*|-]/', $line, $matches)) {
         $paragraphStart = -1;
 
-        if ($ulStart < 0) {
-          $ulStart = $key;
+        if ($matches[0] === '*') {
+          $listType = 'unordered';
+        } else if ($matches[0] === '-') {
+          $listType = 'ordered';
+        }
+
+        if ($listStart < 0) {
+          $listStart = $key;
+
         } else if(array_key_exists($key+1, $lines) && empty($lines[$key+1])) {
-          $ulEnd = $key;
+          $listEnd = $key;
         }
 
       }
 
-      if ($ulStart>0 && $ulEnd>$ulStart) {
-        $content .= '<ul>';
+      if ($listStart>0 && $listEnd>$listStart && isset($listType)) {
+        if ($listType === 'unordered') {
+          $content .= '<ul>';
+        } else if ($listType === 'ordered') {
+          $content .= '<ol>';
+        }
 
-        for ($i=$ulStart; $i<=$ulEnd; $i++) {
+        for ($i=$listStart; $i<=$listEnd; $i++) {
           $item = trim(substr($lines[$i], 1));
           $content .= '<li>' . $item . '</li>';
         }
 
-        $content .= '</ul>';
+        if ($listType === 'unordered') {
+          $content .= '</ul>';
+        } else if ($listType === 'ordered') {
+          $content .= '</ol>';
+        }
 
-        $ulStart = -1;
-        $ulEnd   = -1;
+        $listStart = -1;
+        $listEnd   = -1;
       }
 
       if (array_key_exists($key+1, $lines) && empty($lines[$key+1]) && $paragraphStart>0) {
