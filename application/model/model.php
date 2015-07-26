@@ -41,4 +41,15 @@ class Model
         }
     }
 
+    public function findPageByTitle($title) {
+      $sql = 'SELECT * FROM page WHERE title = :title LIMIT 1';
+      $query = $this->db->prepare($sql);
+
+      $params = array(':title' => $title);
+
+      $query->execute($params);
+
+      return $query->fetch();
+    }
+
 }
