@@ -5,9 +5,10 @@ class Parser {
     $content = '';
     $lines = explode("\n", $file_content);
 
-
     $currentLineIndex = 0;
-    $paragraphStart = -1;
+    $paragraphStart   = -1;
+    $ulStart          = -1;
+    $ulEnd            = -1;
 
     foreach ($lines as $key => $line) {
       $currentLineIndex = $key;
@@ -38,7 +39,30 @@ class Parser {
         $content .= '<h' . $order . '>' . $text . '</h' . $order . '>';
       }
 
+      if (preg_match('/^\*/', $line)) {
+        $paragraphStart = -1;
 
+        if ($ulStart < 0) {
+          $ulStart = $key;
+        } else if(array_key_exists($key+1, $lines) && empty($lines[$key+1])) {
+          $ulEnd = $key;
+        }
+
+      }
+
+      if ($ulStart>0 && $ulEnd>$ulStart) {
+        $content .= '<ul>';
+
+        for ($i=$ulStart; $i<=$ulEnd; $i++) {
+          $item = trim(substr($lines[$i], 1));
+          $content .= '<li>' . $item . '</li>';
+        }
+
+        $content .= '</ul>';
+
+        $ulStart = -1;
+        $ulEnd   = -1;
+      }
 
       if (array_key_exists($key+1, $lines) && empty($lines[$key+1]) && $paragraphStart>0) {
         // if next line also contains a new line we've got the end of the
