@@ -11,6 +11,8 @@ class Parser {
     $listEnd          = -1;
 
     foreach ($lines as $key => $line) {
+      $lines[$key] = $this->parseLink($line);
+
       $currentLineIndex = $key;
       // search file lines made by only dash (-)
       if (preg_match('/^[-]+$/', $line) || preg_match('/^[=]+$/', $line) ) {
@@ -99,6 +101,35 @@ class Parser {
     }
 
     return $content;
+  }
+
+  private function parseLink($string) {
+
+    if (
+    preg_match('/([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})/i', $string, $matches)
+    ) {
+      $start = strpos($string, $matches[0]);
+
+      $head = substr($string, 0, $start);
+      $end = $start + strlen($matches[0]);
+      $tail = substr($string, $end);
+
+      $link = '<a href="mailto:' . $matches[0] . '">' . $matches[0] . '</a>';
+
+      return $head . $link . $tail;
+    } else if (preg_match('/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i', $string, $matches)) {
+      $start = strpos($string, $matches[0]);
+
+      $head = substr($string, 0, $start);
+      $end = $start + strlen($matches[0]);
+      $tail = substr($string, $end);
+
+      $link = '<a href="' . $matches[0] . '">' . $matches[0] . '</a>';
+
+      return $head . $link . $tail;
+    } else {
+      return $string;
+    }
   }
 
 }
