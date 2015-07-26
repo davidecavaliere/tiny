@@ -7,8 +7,8 @@ class Parser {
 
     $currentLineIndex = 0;
     $paragraphStart   = -1;
-    $listStart          = -1;
-    $listEnd            = -1;
+    $listStart        = -1;
+    $listEnd          = -1;
 
     foreach ($lines as $key => $line) {
       $currentLineIndex = $key;
