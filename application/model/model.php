@@ -27,21 +27,24 @@ class Model
 
         // generate a database connection, using the PDO connector
         try {
-          $this->db = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS, $options);
+          $this->db = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8', DB_USER, DB_PASS, $options);
         } catch (PDOException $e) {
           die('Database connection could not be established.');
         }
     }
 
     public function findPageByTitle($title) {
-      $sql = 'SELECT * FROM page WHERE title = :title LIMIT 1';
+      $title = urldecode($title);
+
+      $sql = "SELECT * FROM page WHERE title = :title";
       $query = $this->db->prepare($sql);
 
       $params = array(':title' => $title);
-
       $query->execute($params);
 
-      return $query->fetch();
+      $page = $query->fetch();
+
+      return $page;
     }
 
 }
