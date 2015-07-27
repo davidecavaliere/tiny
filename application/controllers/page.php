@@ -30,6 +30,11 @@ class Page extends Controller
 
         $pageObject = $model->findPageByTitle($page);
 
+        if (!$pageObject) {
+          $err = new Error();
+          $err->index('Unable to find requested page');
+        }
+
         $this->title = $pageObject->title;
 
         if ($pageObject->mime === 'text/plain') {
