@@ -16,11 +16,22 @@ class Controller
     /**
      * @var null Title
      */
-     public $title = null;
+    public $title = null;
 
     /**
-    * @var Parser The Parser
-    */
+     * @var null The Parser
+     */
+    public $parser = null;
+
+    /**
+     * @var null start time
+     */
+    public $startTime = null;
+
+    /**
+     * @var null end time
+     */
+    public $endTime = null;
 
     /**
      * Whenever a controller is created, open a database connection too. The idea behind is to have ONE connection
@@ -29,5 +40,6 @@ class Controller
     function __construct()
     {
       $this->parser = new Parser();
+      $this->startTime = microtime(true) * 1000;
     }
 }

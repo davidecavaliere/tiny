@@ -46,6 +46,8 @@ class Page extends Controller
 
       }
 
+      $this->endTime = microtime(true) * 1000;
+
       // load views
       require_once APP . 'views/_templates/header.php';
       require_once APP . 'views/index.php';
