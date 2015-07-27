@@ -15,11 +15,11 @@ class Parser {
 
       $currentLineIndex = $key;
       // search file lines made by only dash (-)
-      if (preg_match('/^[-]+$/', $line) || preg_match('/^[=]+$/', $line) ) {
+      if (preg_match('/^[-]+[\s]*$/', $line) || preg_match('/^[=]+[\s]*$/', $line) ) {
         $content .= '<h1>' . $lines[$key-1] . '</h1>';
       }
 
-      if (empty($line)) {
+      if ($this->isEmpty($line)) {
         // if line contains just a new line
 
         // store current index
@@ -81,7 +81,7 @@ class Parser {
         $listEnd   = -1;
       }
 
-      if (array_key_exists($key+1, $lines) && empty($lines[$key+1]) && $paragraphStart>0) {
+      if (array_key_exists($key+1, $lines) && $this->isEmpty($lines[$key+1]) && $paragraphStart>0) {
         // if next line also contains a new line we've got the end of the
         // paragraph
 
@@ -101,6 +101,10 @@ class Parser {
     }
 
     return $content;
+  }
+
+  private function isEmpty($line) {
+    return empty($line) || preg_match('/^[\s]+$/', $line);
   }
 
   private function parseLink($string) {
