@@ -7,6 +7,12 @@ class Model
      */
     public $db = null;
 
+    private $dbType = 'mysql';
+    private $dbHost = 'localhost';
+    private $dbName = 'pages';
+    private $dbUser = 'admin';
+    private $dbPass = 'pass';
+
     /**
      * @param object $db A PDO database connection
      */
@@ -27,7 +33,11 @@ class Model
 
         // generate a database connection, using the PDO connector
         try {
-          $this->db = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8', DB_USER, DB_PASS, $options);
+          $this->db = new PDO($this->dbType .
+            ':host=' . $this->dbHost .
+            ';dbname=' . $this->dbName .
+            ';charset=utf8',
+            $this->dbUser, $this->dbPass, $options);
         } catch (PDOException $e) {
           die('Database connection could not be established.');
         }
