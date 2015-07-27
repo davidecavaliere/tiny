@@ -16,10 +16,17 @@ class Controller
      public $title = null;
 
     /**
+    * @var Parser The Parser
+    */
+
+    /**
      * Whenever a controller is created, open a database connection too. The idea behind is to have ONE connection
      * that can be used by multiple models (there are frameworks that open one connection per model).
      */
     function __construct()
     {
+      require APP . 'model' . DIRECTORY_SEPARATOR . 'model.php';
+      require LIBS . 'parser.php';
+      $this->parser = new Parser();
     }
 }

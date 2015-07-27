@@ -23,12 +23,9 @@ class Page extends Controller
 
       } else if (file_exists($pageBasePath . '.txt')) {
         $pageContent = file_get_contents($pageBasePath . '.txt');
-        require LIBS . 'parser.php';
-        $parser = new Parser();
-        $this->model = $parser->parse($pageContent);
+        $this->model = $this->parser->parse($pageContent);
       } else {
         // search for page in database
-        require APP . 'model' . DIRECTORY_SEPARATOR . 'model.php';
         $model = new Model();
       }
 
