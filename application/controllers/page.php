@@ -27,6 +27,18 @@ class Page extends Controller
       } else {
         // search for page in database
         $model = new Model();
+
+        $pageObject = $model->findPageByTitle($page);
+
+        $this->title = $pageObject->title;
+
+        if ($pageObject->mime === 'text/plain') {
+          $this->model = $this->parser->parse($pageObject->text);
+        } else {
+          $this->model = $pageObject->text;
+        }
+
+
       }
 
       // load views
