@@ -1,5 +1,5 @@
 <?php
-
+require_once APP . 'core/controller.php';
 /**
  * Class Page
  *
@@ -42,9 +42,9 @@ class Page extends Controller
       }
 
       // load views
-      require APP . 'views/_templates/header.php';
-      require APP . 'views/index.php';
-      require APP . 'views/_templates/footer.php';
+      require_once APP . 'views/_templates/header.php';
+      require_once APP . 'views/index.php';
+      require_once APP . 'views/_templates/footer.php';
 
     }
 }

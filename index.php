@@ -10,15 +10,15 @@ define('PAGE', ROOT . 'page' . DIRECTORY_SEPARATOR);
 define('LIBS', APP . 'libs' . DIRECTORY_SEPARATOR);
 
 // load application config (error reporting etc.)
-require APP . '/config/config.php';
+require_once APP . '/config/config.php';
 
 // FOR DEVELOPMENT: this loads PDO-debug, a simple function that shows the SQL query (when using PDO).
 // If you want to load pdoDebug via Composer, then have a look here: https://github.com/panique/pdo-debug
-require APP . '/libs/pdo-debug.php';
+require_once APP . '/libs/pdo-debug.php';
 
 // load application class
-require APP . '/core/application.php';
-require APP . '/core/controller.php';
+require_once APP . '/core/application.php';
+require_once APP . '/core/controller.php';
 
 // start the application
 $app = new Application();

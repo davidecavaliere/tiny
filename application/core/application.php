@@ -1,4 +1,6 @@
 <?php
+require_once APP . 'controllers/error.php';
+require_once APP . 'controllers/page.php';
 
 class Application
 {
@@ -17,8 +19,6 @@ class Application
     private function handlePage() {
       $page = $this->url_params['page'];
 
-      require APP . 'controllers/page.php';
-
       $pageCtrl = new Page();
 
       $pageCtrl->serve($page);
@@ -28,7 +28,7 @@ class Application
      *  Handle Errors
      */
     private function handleError($message) {
-      require APP . 'controllers/error.php';
+
       $page = new Error();
       $page->index($message);
     }

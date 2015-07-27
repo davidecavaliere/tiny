@@ -1,4 +1,7 @@
 <?php
+require_once APP . 'controllers/error.php';
+require_once APP . 'model' . DIRECTORY_SEPARATOR . 'model.php';
+require_once LIBS . 'parser.php';
 
 /**
  * This is the "base controller class". All other "real" controllers extend this class.
@@ -25,8 +28,6 @@ class Controller
      */
     function __construct()
     {
-      require APP . 'model' . DIRECTORY_SEPARATOR . 'model.php';
-      require LIBS . 'parser.php';
       $this->parser = new Parser();
     }
 }
